@@ -16,7 +16,7 @@ public class LoginServiceImpl implements LoginService{
 	}
 
 	@Override
-	public String login(String id, String pass) {
+	public LoginVO login(String id, String pass) {
 		return 	dao.login(id, pass);
 	}
 

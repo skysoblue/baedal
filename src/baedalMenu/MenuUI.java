@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 
 import baedalOrder.OrderUI;
 import baedalOrder.OrderVO;
+import global.StdDimention;
 
 public class MenuUI extends JFrame implements ActionListener {
 //   public static void main(String[] args) {
@@ -60,8 +61,10 @@ public class MenuUI extends JFrame implements ActionListener {
       panelSouthImg = new JPanel();
       panelSouthBtn = new JPanel();
       
-//		URL imageHan1 = getClass().getClassLoader().getResource("image/han/1.png");
-//		ImageIcon top1ButtonIcon = new ImageIcon(imageHan1);
+      String[] arr = new String[6];
+      for (int i = 0; i < arr.length; i++) {
+	//	arr[i] = service.getProfileImage();
+	}
       
       URL imageGo1 = getClass().getClassLoader().getResource("images/gobongmin1.png");
       ImageIcon icon1 = new ImageIcon(imageGo1);
@@ -128,24 +131,12 @@ public class MenuUI extends JFrame implements ActionListener {
       btnget6.addActionListener(this);
       btnget7.addActionListener(this);
       btnget8.addActionListener(this);
-      
-      
       // 조합!
       this.add(panelNorthImg);
       this.add(panelNorthBtn);
       this.add(panelSouthImg);
       this.add(panelSouthBtn);
-      
-      this.setBounds(100, 50, 1400, 800);
-      Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-      Dimension frm = this.getSize();
-      int xpos = (int) (screen.getWidth()/2-frm.getWidth()/2);
-      int ypos = (int)(screen.getHeight()/2-frm.getHeight()/2);
-      this.setLocation(xpos,ypos);
-      this.pack();
-      this.setResizable(false);
-      this.setVisible(true);
-      
+      StdDimention.setPosition(this,1200,600);
    }
 
 

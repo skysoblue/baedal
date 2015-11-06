@@ -1,6 +1,7 @@
 package baedalMenu;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,7 +12,7 @@ import global.DatabaseFactory;
 import global.Vendor;
 
 public class MenuDAO extends DAO{
-   private Connection con;
+   private Connection connection;
    private Statement stmt;
    private ResultSet rs;
    private MenuVO menu = new MenuVO();
@@ -24,8 +25,23 @@ public class MenuDAO extends DAO{
    }
    
    public MenuDAO() {
-      con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, 
-            Constants.ORACLE_PASSWORD).getConnection();
+	   try {
+			/**
+			 * 오라클 커넥션
+			 * connection = DatabaseFactory.getDatabase(Vendor.ORACLE,
+			 *               Constants.ORACLE_ID, 
+			 *               Constants.ORACLE_PASSWORD)
+			 *               .getConnection();
+			 */
+			// HSQL 커넥션
+			Class.forName(Constants.HSQL_DRIVER);
+			connection = DriverManager.getConnection(
+					Constants.HSQL_URL,
+					Constants.HSQL_ID,
+					Constants.HSQL_PASSWORD);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
    }
    @Override
    public void selectOrderMember() {
@@ -36,7 +52,7 @@ public class MenuDAO extends DAO{
    public MenuVO selectOrderMenu(String foodName) {
 	      MenuVO menu = new MenuVO();
 	      try {
-	         stmt = con.createStatement();
+	         stmt = connection.createStatement();
 	         rs= stmt.executeQuery(menu.selectMenu(foodName));
 	         while (rs.next()) {
 	            menu.setFoodName(rs.getString("food_Name"));
@@ -51,7 +67,7 @@ public class MenuDAO extends DAO{
       MenuVO temp = new MenuVO();
       System.out.println("DAO 셀렉메뉴시퀀스 진입");
       try {
-         rs= con.createStatement().executeQuery(temp.selectMenu(foodName));
+         rs= connection.createStatement().executeQuery(temp.selectMenu(foodName));
          while (rs.next()) {
             temp.setMenuSeq(rs.getInt("menu_seq"));
          }
@@ -66,7 +82,7 @@ public class MenuDAO extends DAO{
    public int selectPrice(int menuSeq) {
       MenuVO temp = new MenuVO();
       try {
-         stmt = con.createStatement();
+         stmt = connection.createStatement();
          rs= stmt.executeQuery(menu.selectPrice(menuSeq));
          while (rs.next()) {
             smv.setPrice(rs.getInt("price"));

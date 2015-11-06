@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import baedalLogin.LoginVO;
 import baedalStore.StoreUI;
+import global.StdDimention;
 
 public class FisrtUI extends JFrame implements ActionListener{
 
@@ -28,7 +29,6 @@ public class FisrtUI extends JFrame implements ActionListener{
 	
 	public FisrtUI() {
 		init();
-		
 	}
 	public void init(){
 		this.setTitle("배달의기수");
@@ -36,24 +36,23 @@ public class FisrtUI extends JFrame implements ActionListener{
 		panelCenter = new JPanel();
 		panelSouth = new JPanel();
 		btnHan = new JButton("한식");
-		URL imageHan = getClass().getClassLoader().getResource("images/Han.jpg");
+		URL imageHan = getClass().getClassLoader().getResource("images/cate_korean_food.jpg");
 		btnHan.setIcon(new ImageIcon(imageHan));
 		btnJoong = new JButton("중식");
-		URL imageJoong = getClass().getClassLoader().getResource("images/Joong.jpg");
+		URL imageJoong = getClass().getClassLoader().getResource("images/cate_chinese_food.jpg");
 		btnJoong.setIcon(new ImageIcon(imageJoong));
 		btnIl = new JButton("일식");
-		URL imageIl = getClass().getClassLoader().getResource("images/il.gif");
+		URL imageIl = getClass().getClassLoader().getResource("images/cate_japanese_food.jpg");
 		btnIl.setIcon(new ImageIcon(imageIl));
 		btnChi = new JButton("치킨");
-		URL imageChi = getClass().getClassLoader().getResource("images/Chi.jpg");
+		URL imageChi = getClass().getClassLoader().getResource("images/cate_chicken.jpg");
 		btnChi.setIcon(new ImageIcon(imageChi));
 		btnPi = new JButton("피자");
-		URL imagePi = getClass().getClassLoader().getResource("images/Pi.jpg");
+		URL imagePi = getClass().getClassLoader().getResource("images/cate_pizza.jpg");
 		btnPi.setIcon(new ImageIcon(imagePi));
 		btnBo = new JButton("보쌈,족발");
-		URL imageBo = getClass().getClassLoader().getResource("images/Bo.gif");
+		URL imageBo = getClass().getClassLoader().getResource("images/cate_bossam.jpg");
 		btnBo.setIcon(new ImageIcon(imageBo));
-		
 		btnHan.addActionListener(this);
 		btnJoong.addActionListener(this);
 		btnIl.addActionListener(this);
@@ -66,32 +65,11 @@ public class FisrtUI extends JFrame implements ActionListener{
 		panelSouth.add(btnChi);
 		panelSouth.add(btnPi);
 		panelSouth.add(btnBo);
-		panelNorth.setPreferredSize(new Dimension(200, 100));
-		panelCenter.setPreferredSize(new Dimension(700, 350));
-		panelSouth.setPreferredSize(new Dimension(700, 350));
-		
-		/*
-		panelNorth.setBackground(Color.WHITE);
-		panelCenter.setBackground(Color.WHITE);
-		panelSouth.setBackground(Color.WHITE);
-		*/
-		
 		this.add(panelNorth, BorderLayout.NORTH);
 		this.add(panelCenter, BorderLayout.CENTER);
 		this.add(panelSouth, BorderLayout.SOUTH);
-		this.setBounds(100, 50, 1400, 800);
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension frm = this.getSize();
-		int xpos = (int) (screen.getWidth()/2-frm.getWidth()/2);
-		int ypos = (int)(screen.getHeight()/2-frm.getHeight()/2);
-		this.setLocation(xpos,ypos);
-		this.setResizable(false);
-		this.setVisible(true);
-		
+		StdDimention.setPosition(this,1200,600);
 	}
-	
-	
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {

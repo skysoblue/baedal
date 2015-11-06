@@ -1,20 +1,18 @@
 package baedalLogin;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import global.Constants;
 import global.DAO;
-import global.DatabaseFactory;
-import global.Vendor;
 
 public class LoginDAO extends DAO{
-	private Connection con;
+	private Connection connection;
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
@@ -23,19 +21,34 @@ public class LoginDAO extends DAO{
 	String aaa;
 	
 	private static LoginDAO instance = new LoginDAO();
+	public LoginDAO() {
+		try {
+			/**
+			 * 오라클 커넥션
+			 * connection = DatabaseFactory.getDatabase(Vendor.ORACLE,
+			 *               Constants.ORACLE_ID, 
+			 *               Constants.ORACLE_PASSWORD)
+			 *               .getConnection();
+			 */
+			// HSQL 커넥션
+			Class.forName(Constants.HSQL_DRIVER);
+			connection = DriverManager.getConnection(
+					Constants.HSQL_URL,
+					Constants.HSQL_ID,
+					Constants.HSQL_PASSWORD);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public static LoginDAO getInstance() {
 		return instance;
 	}
-	public LoginDAO() {
-	con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
-	}
-	
-	//--------------- 회원가입
+		//--------------- 회원가입
 		@Override
 		public int insert(LoginVO o) {
 			int result = 0;
 			try {
-				pstmt = con.prepareStatement(o.insert());
+				pstmt = connection.prepareStatement(o.insert());
 				pstmt.setString(1, o.getUserid());
 				pstmt.setString(2, o.getPassword());
 				pstmt.setString(3, o.getName());
@@ -50,45 +63,32 @@ public class LoginDAO extends DAO{
 			}
 			return result;
 		}
-	
-		@Override // -----------------로그인
-		public String login(String userid, String pass) {
-			String result = "";
-			
+		/**
+		 * @see 로그인
+		 * @return 로그인객체
+		 * @param 아이디, 비번
+		 */
+		public LoginVO login(String userid, String pass) {
 			try {
-				
-			//	stmt = con.createStatement();
-			//	rs = stmt.executeQuery("select * from member where userid = 'lee' and password = '1'");
-				pstmt = con.prepareStatement("select * from member where userid = ? and password = ?");
-				System.out.println("userid"+userid);
-				System.out.println("password"+pass);
+				pstmt = connection.prepareStatement("select * from member where userid = ? and password = ?");
 				pstmt.setString(1, userid);
 				pstmt.setString(2, pass);
 				rs = pstmt.executeQuery();
-				/*
-				while (rs.next()) {
-					temp.setUserid(rs.getString("userid"));
-					temp.setPassword(rs.getString("password"));
-					temp.setName(rs.getString("name"));
-					temp.setPhone(rs.getString("phone"));
-					temp.setAddr(rs.getString("addr"));
-					temp.setBirth(rs.getString("birth"));
-					temp.setQue(rs.getString("que"));
-					temp.setAns(rs.getString("ans"));
-				}
-				*/
 				if (rs.next()) {
 					do {
 						System.out.println("******************TRUE********************* ");
-						result = "로그인 성공";
+						login.setUserid(rs.getString("userid"));
+						login.setPassword(rs.getString("password"));
+						login.setName(rs.getString("name"));
+						login.setPhone(rs.getString("phone"));
+						login.setAddr(rs.getString("addr"));
+						login.setBirth(rs.getString("birth"));
+						login.setQue(rs.getString("que"));
+						login.setAns(rs.getString("ans"));
 					
 					} while (rs.next());
 					
 				} else {
-					
-					System.out.println("******************FALSE********************* ");
-					result = "로그인 실패";
-					
 				}
 					
 				
@@ -96,14 +96,14 @@ public class LoginDAO extends DAO{
 				e.printStackTrace();
 			}
 			
-			return result;
+			return login;
 		}		
 	
 		public List<LoginVO> selectAll() {
 			List<LoginVO>temp = new ArrayList<LoginVO>();
 			
 			try {
-				stmt = con.createStatement();
+				stmt = connection.createStatement();
 				rs = stmt.executeQuery(login.selectAll());
 				while (rs.next()) {
 					LoginVO vo = new LoginVO();
@@ -130,7 +130,7 @@ public class LoginDAO extends DAO{
 			List<LoginVO> list = new ArrayList<LoginVO>();
 			
 			try {
-				stmt = con.createStatement();
+				stmt = connection.createStatement();
 				rs = stmt.executeQuery(login.selectByID(name, birth));
 				System.out.println("디버깅");
 				while (rs.next()) {
@@ -157,7 +157,7 @@ public class LoginDAO extends DAO{
 		public List<LoginVO> searchByPass(String id, String que, String ans) {
 			List<LoginVO> list = new ArrayList<LoginVO>();
 			try {
-				stmt = con.createStatement();
+				stmt = connection.createStatement();
 				rs = stmt.executeQuery(login.selectByPass(id, que, ans));
 				while (rs.next()) {
 					LoginVO result = new LoginVO();
@@ -195,7 +195,7 @@ public class LoginDAO extends DAO{
 			boolean exist = false;
 			LoginVO temp = new LoginVO();
 			try {	
-				stmt = con.createStatement();
+				stmt = connection.createStatement();
 				rs = stmt.executeQuery(login.checkID(id));
 				
 				while (rs.next()) { // 있을 떄

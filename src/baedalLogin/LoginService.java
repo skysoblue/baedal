@@ -8,7 +8,7 @@ public interface LoginService {
 	public void join (String userid, String pass, String name, String phone, String addr, String birth, String que , String ans);
 	
 	// 로그인
-	public String login(String userid, String pass); 
+	public LoginVO login(String userid, String pass); 
 	
 	
 	// 아이디 찾기

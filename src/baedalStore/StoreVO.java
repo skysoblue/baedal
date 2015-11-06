@@ -6,25 +6,19 @@ import global.SQL;
 
 public class StoreVO implements Serializable, SQL{
 	private static final long serialVersionUID = 1L;
-	private String temp;
-	private String storeSeq;
+	private int storeSeq;
 	private String bizName;
-	private String foodCateSeq;
+	private int foodCateSeq;
 	
-	public StoreVO() {
-		// TODO Auto-generated constructor stub
-	}
+	public StoreVO() {}
 	
-	public StoreVO(String temp, String stroeSeq, String bizName, String foodCateSeq) {
-		this.temp = temp;
+	public StoreVO(int stroeSeq, String bizName, int foodCateSeq) {
 		this.storeSeq = stroeSeq;
 		this.bizName = bizName;
 		this.foodCateSeq = foodCateSeq;
 	}
 	
-	
-	
-	public String getStoreSeq() {
+	public int getStoreSeq() {
 		return storeSeq;
 	}
 
@@ -32,11 +26,11 @@ public class StoreVO implements Serializable, SQL{
 		return bizName;
 	}
 
-	public String getFoodCateSeq() {
+	public int getFoodCateSeq() {
 		return foodCateSeq;
 	}
 
-	public void setStoreSeq(String storeSeq) {
+	public void setStoreSeq(int storeSeq) {
 		this.storeSeq = storeSeq;
 	}
 
@@ -44,26 +38,13 @@ public class StoreVO implements Serializable, SQL{
 		this.bizName = bizName;
 	}
 
-	public void setFoodCateSeq(String foodCateSeq) {
+	public void setFoodCateSeq(int foodCateSeq) {
 		this.foodCateSeq = foodCateSeq;
 	}
 
-	
-	
-	
-	
-	
 	@Override
 	public String toString() {
 		return "StoreVO [상호명=" + bizName + "]";
-	}
-
-	public String getTemp() {
-		return temp;
-	}
-
-	public void setTemp(String temp) {
-		this.temp = temp;
 	}
 
 	

@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 
 import baedalFirst.FisrtUI;
 import baedalLogin.LoginUI;
+import global.StdDimention;
 
 public class OrderUI extends JFrame implements ActionListener, Runnable{
 
@@ -40,21 +41,12 @@ public class OrderUI extends JFrame implements ActionListener, Runnable{
 	}
 
 	public void init(){
-		/*System.out.println("오더유아이넘겨옴");
-		System.out.println("아이디");
-		System.out.println(OrderVO.getUserid());
-		System.out.println("시퀀스넘버");
-		System.out.println(OrderVO.getseq());
-
-		System.out.println("주문가격 : "+service.searchPrices(Integer.toString(OrderVO.getseq())));
-		System.out.println("주문음식 : "+service.searchMenu(Integer.toString(OrderVO.getSeq())));*/
 		
 		String[] temp = service.searchMember(OrderVO.getUserid());
 		for (int i = 0; i < temp.length; i++) {
 			String nasdf = temp[i];
 			System.out.println(temp[i]);
 		}
-		
 		this.setTitle("주문정보확인");
 		//pullMember = new PullMember(); // 주문한 회원 정보를 끌어다오는 객체 *만들어야함
 		panelW = new JPanel(new BorderLayout());
@@ -71,7 +63,10 @@ public class OrderUI extends JFrame implements ActionListener, Runnable{
 		btnPay.setPreferredSize(new Dimension(190, 40));
 		btnPhonePay = new JButton("<html>휴대폰으로<br/> 결제하기</html>");
 		btnPhonePay.setPreferredSize(new Dimension(190, 100));
-		btnList = new JButton("<html>2. 주문목록<br/>"+service.searchMenu(Integer.toString(OrderVO.getSeq()))+"<br/>"+service.searchPrices(Integer.toString(OrderVO.getseq()))+"원</html>" );
+		btnList = new JButton("<html>2. 주문목록<br/>"
+				+service.searchMenu(Integer.toString(OrderVO.getSeq()))
+				+"<br/>"+service.searchPrices(Integer.toString(OrderVO.getseq()))
+				+"원</html>" );
 		btnList.setPreferredSize(new Dimension(190, 290));
 		btnMember = new JButton("<html>1. 배송정보<br/>"+"아이디 : "+temp[0]+"<br/>"+"이름 : "+temp[1]+"<br/>"+"폰번호 : "+temp[2]+"<br/>"+"주소 : "+temp[3]);
 		btnMember.setPreferredSize(new Dimension(190, 390));
@@ -107,18 +102,7 @@ public class OrderUI extends JFrame implements ActionListener, Runnable{
 		this.getContentPane().add(panelW, "West");
 		btnPay.addActionListener(this);
 		btnPhonePay.addActionListener(this);
-		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 400, 500); // 표시위치, 화면크기.
-		
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-	      Dimension frm = this.getSize();
-	      int xpos = (int) (screen.getWidth()/2-frm.getWidth()/2);
-	      int ypos = (int)(screen.getHeight()/2-frm.getHeight()/2);
-	      this.setLocation(xpos,ypos);
-	      this.setResizable(false);
-	      this.setVisible(true);
-			
+		StdDimention.setPosition(this,400,500);
 	}
 	
 	@Override

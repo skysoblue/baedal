@@ -2,6 +2,7 @@ package baedalOrder;
 
 import java.beans.Statement;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,7 +12,7 @@ import global.DatabaseFactory;
 import global.Vendor;
 
 public class OrderDAO extends DAO{
-	private Connection con;
+	private Connection connection;
 	private Statement stmt;
 	private ResultSet rs;
 	OrderVO vo = new OrderVO();
@@ -22,7 +23,23 @@ public class OrderDAO extends DAO{
 	}
 	
 	public OrderDAO() {
-	con = DatabaseFactory.getDatabase(Vendor.ORACLE, Constants.ORACLE_ID, Constants.ORACLE_PASSWORD).getConnection();
+		 try {
+				/**
+				 * 오라클 커넥션
+				 * connection = DatabaseFactory.getDatabase(Vendor.ORACLE,
+				 *               Constants.ORACLE_ID, 
+				 *               Constants.ORACLE_PASSWORD)
+				 *               .getConnection();
+				 */
+				// HSQL 커넥션
+				Class.forName(Constants.HSQL_DRIVER);
+				connection = DriverManager.getConnection(
+						Constants.HSQL_URL,
+						Constants.HSQL_ID,
+						Constants.HSQL_PASSWORD);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 	
 	@Override
@@ -41,7 +58,7 @@ public class OrderDAO extends DAO{
 	public String searchPrices(String seq) {
 		String result = "";
 		try {
-			rs = con.createStatement().executeQuery(vo.selectPrice(seq));
+			rs = connection.createStatement().executeQuery(vo.selectPrice(seq));
 			while (rs.next()) {
 				result = rs.getString("price");
 			}
@@ -57,7 +74,7 @@ public class OrderDAO extends DAO{
 	public String[] searchMember(String userid) {
 		String[] result = new String[4];
 		try {
-			rs = con.createStatement().executeQuery(vo.selectMember(userid));
+			rs = connection.createStatement().executeQuery(vo.selectMember(userid));
 			while (rs.next()) {
 				result[0] = rs.getString("userid");
 				result[1] = rs.getString("name");
@@ -75,7 +92,7 @@ public class OrderDAO extends DAO{
 	public String searchMenu(String seq) {
 		String result = "";
 		try {
-			rs = con.createStatement().executeQuery(vo.selectMenu(seq));
+			rs = connection.createStatement().executeQuery(vo.selectMenu(seq));
 			while(rs.next()){
 				result = rs.getString("food_name");
 			}
