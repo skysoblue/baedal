@@ -1,6 +1,6 @@
 package global;
 
-import baedalLogin.LoginVO;
+import Member.LoginVO;
 
 public abstract class DAO {
 	public int insert (LoginVO o){return 0;}{}

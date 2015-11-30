@@ -1,6 +1,6 @@
 package global;
 
-import baedalLogin.LoginUI;
+import Member.LoginUI;
 
 public class BaedalMain {
 	public static void main(String[] args) {
