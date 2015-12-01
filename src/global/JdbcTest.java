@@ -33,7 +33,7 @@ public class JdbcTest {
         Statement stmt = null;
         ResultSet rs = null;
         try {
-    		String sql = "SELECT * FROM TEST";
+    		String sql = "SELECT * FROM MEMBER";
     		connection = JdbcTest
     				.getInstance()
     				.getConnection();
@@ -45,9 +45,9 @@ public class JdbcTest {
 			rs = stmt.executeQuery(sql);
 			String temp = null;
 			while (rs.next()) {
-				temp = rs.getString("TEST");
+				temp = rs.getString("USERID");
 			}
-			System.out.println("임시값 : "+temp);
+			System.out.println("아이디 : "+temp);
         } catch (Exception e ) {
             System.out.println("HSQLDB 에러발생 !!");
             e.printStackTrace();
