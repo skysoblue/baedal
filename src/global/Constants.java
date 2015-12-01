@@ -22,7 +22,7 @@ public class Constants {
 	public static final String Mongo_DRIVER = "mongodb.jdbc.MongoDriver";
 	public static final String Mongo_URL = "jdbc:mongo://ds029847.mongolab.com:29847/test_db";
 	public static final String HSQL_DRIVER = "org.hsqldb.jdbcDriver";
-	public static final String HSQL_URL = "jdbc:hsqldb:MyDB;readonly=false";
+	public static final String HSQL_URL = "jdbc:hsqldb:MyDB;readonly=true";
 	public static final String HSQL_ID = "sa";
 	public static final String HSQL_PASSWORD = "";
 	
